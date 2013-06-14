@@ -1,0 +1,26 @@
+@(products: List[Product])
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>paperclips.example.com</title>
+    <link href="@routes.Assets.at("bootstrap/css/bootstrap.css")" rel="stylesheet">
+    <link href="@routes.Assets.at("stylesheets/main.css")" rel="stylesheet">
+  </head>
+  <body>
+    @navigation()
+    <section class="container" id="content">
+      <h2>Products</h2>
+      <ul class="products">
+      @for(product <- products) {
+        <li>
+          <h3>@product.name</h3>
+          <p class="description">@product.description</p>
+        </li>
+      }
+      </ul>
+    </section>
+    <footer class="container">
+      <p>Copyright ©2012 paperclips.example.com</p>
+    </footer>
+  </body>
+</html>
