@@ -1,22 +1,79 @@
-@(products: List[Product])
-
+@(currentPage: com.avaje.ebean.Page[Product])
 @main("Products catalogue") {
 
-  <h1>All products</h1>
+  <h2>All products</h2>
 
-  <dl>
-  @for(product <- products) {
-    <dt>
+    <script>
+     function del(urlToDelete) {
+        $.ajax({
+          url: urlToDelete,
+          type: 'DELETE',
+          success: function(results) {
+            // Refresh the page
+            location.reload();
+          }
+        });
+      }
+   </script>
 
-      <a href="@routes.Products.details(product.id)">
-        <i class="icon icon-pencil"></i>
-        @product.ean - @product.name
-      </a>
-    </dt>
-    <dd>@product.description</dd>
-  }
-  </dl>
+   <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>EAN</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Date</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    @for(product <- currentPage.getList()) {
 
+      <tr>
+        <td><a href="@routes.Products.details(product)">
+          @product.ean 
+        </a></td>
+        <td><a href="@routes.Products.details(product)">@product.name</a></td>
+        <td><a href="@routes.Products.details(product)">@product.name</a></td>
+        <td>@product.date.format("dd-MM-yyyy")</td>
+        <td>
+          <a href="@routes.Products.details(product)"><i class="icon icon-pencil"></i></a> 
+          <a onclick="javascript:del('@routes.Products.delete(product.ean)')"><i class="icon icon-trash"></i></a> 
+        </td>
+      </tr>
+      }
+  
+    </tbody>
+   </table>
+
+   <div id="pagination" class="pagination">
+            <ul>
+                @if(currentPage.hasPrev) {
+                    <li class="prev">
+                        <a href="@routes.Products.list(currentPage.getPageIndex - 1)">&larr; </a>
+                    </li>
+                } else {
+                    <li class="prev disabled">
+                        <a>&larr;</a>
+                    </li>
+                }
+                <li class="current">
+                    <a>@currentPage.getDisplayXtoYofZ(" - "," / ")</a>
+                </li>
+                @if(currentPage.hasNext) {
+                    <li class="next">
+                        <a href="@routes.Products.list(currentPage.getPageIndex + 1)"> &rarr;</a>
+                    </li>
+                } else {
+                    <li class="next disabled">
+                        <a>&rarr;</a>
+                    </li>
+                }
+            </ul>
+        </div>
+
+  
+    
   <a href="@routes.Products.newProduct()" class="btn">
     <i class="icon-plus"></i> New product</a>
 }

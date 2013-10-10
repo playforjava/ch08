@@ -4,11 +4,12 @@
 
 # Home page
 GET  /                     controllers.Products.index()
-GET  /products/            controllers.Products.list(page: Integer ?= 1)
+GET  /products/            controllers.Products.list(page: Integer ?= 0)
 POST /products/            controllers.Products.save()
 GET  /products/new         controllers.Products.newProduct()
-GET  /products/:id         controllers.Products.details(id:Long)
-GET  /picture/:id          controllers.Products.picture(id:Long)
+GET  /products/:ean        controllers.Products.details(ean: models.Product)
+DELETE      /products/:ean               controllers.Products.delete(ean: String)
+GET  /picture/:ean         controllers.Products.picture(ean)
 
 GET  /stockitems/          controllers.StockItems.index()
 

@@ -9,7 +9,7 @@ import java.util.List;
 public class StockItems extends Controller {
 
   public static Result index() {
-    List<StockItem> items = StockItem.find()
+    List<StockItem> items = StockItem.find
         .where()
         .ge("quantity", 300)
         .orderBy("quantity")

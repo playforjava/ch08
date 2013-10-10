@@ -1,26 +1,55 @@
-@(products: List[Product])
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>paperclips.example.com</title>
-    <link href="@routes.Assets.at("bootstrap/css/bootstrap.css")" rel="stylesheet">
-    <link href="@routes.Assets.at("stylesheets/main.css")" rel="stylesheet">
-  </head>
-  <body>
-    @navigation()
-    <section class="container" id="content">
-      <h2>Products</h2>
-      <ul class="products">
-      @for(product <- products) {
-        <li>
-          <h3>@product.name</h3>
-          <p class="description">@product.description</p>
-        </li>
+@(currentPage: com.avaje.ebean.Page[Product])
+@main("Products catalogue") {
+
+  <h2>All products</h2>
+
+    <script>
+     function del(urlToDelete) {
+        $.ajax({
+          url: urlToDelete,
+          type: 'DELETE',
+          success: function(results) {
+            // Refresh the page
+            location.reload();
+          }
+        });
       }
-      </ul>
-    </section>
-    <footer class="container">
-      <p>Copyright ©2012 paperclips.example.com</p>
-    </footer>
-  </body>
-</html>
+   </script>
+
+   <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>EAN</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Date</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    @for(product <- currentPage.getList()) {
+
+      <tr>
+        <td><a href="@routes.Products.details(product)">
+          @product.ean 
+        </a></td>
+        <td><a href="@routes.Products.details(product)">@product.name</a></td>
+        <td><a href="@routes.Products.details(product)">@product.name</a></td>
+        <td>@product.date.format("dd-MM-yyyy")</td>
+        <td>
+          <a href="@routes.Products.details(product)"><i class="icon icon-pencil"></i></a> 
+          <a onclick="javascript:del('@routes.Products.delete(product.ean)')"><i class="icon icon-trash"></i></a> 
+        </td>
+      </tr>
+      }
+  
+    </tbody>
+   </table>
+
+   @pagination(currentPage.hasPrev, routes.Products.list(currentPage.getPageIndex - 1).toString, currentPage.hasNext, routes.Products.list(currentPage.getPageIndex + 1).toString, currentPage.getDisplayXtoYofZ(" - "," / "))
+   
+  
+    
+  <a href="@routes.Products.newProduct()" class="btn">
+    <i class="icon-plus"></i> New product</a>
+}

@@ -7,15 +7,22 @@
   @helper.form(action = routes.Products.save(), 'enctype -> "multipart/form-data") {
     <fieldset>
       <legend>Product (@productForm("name").valueOr("New"))</legend>
-      @helper.inputText(productForm("ean"))
-      @helper.inputText(productForm("name"))
-      @helper.textarea(productForm("description"))
-      @helper.inputFile(productForm("picture"))
+      <input type="hidden" value="@productForm("id").valueOr("")" name="id"/>
+      @helper.inputText(productForm("ean"), '_label -> "EAN", '_help -> "Must be exaclty 13 numbers.")
+      @helper.inputText(productForm("name"),'_label -> "Name")
+      @helper.inputText(productForm("date"),'_label -> "Date")
+      @helper.inputText(productForm("peremptionDate"),'_label -> "Peremption date")
+      @helper.textarea(productForm("description"), '_label -> "Description")
+      @helper.inputFile(productForm("picture"), '_label -> "Picture")
       @if(!productForm("picture").valueOr("").isEmpty()) {
-      <img src="/picture/@productForm("id").value/>
+        <div class="control-group">
+           <div class="controls">
+             <img 
+              style="position:relative; left:50px;height:80px" 
+              src="/picture/@productForm("ean").value">           
+          </div>
+        </div>
       }
-
-
 <div class="control-group">
   <div class="controls">
     <input name="tags[0].id" value="1" type="checkbox"
@@ -33,6 +40,7 @@
   </div>
 </div>
     </fieldset>
-    <input type="submit" class="btn btn-primary">
+    <input type="submit" class="btn btn-primary" value="Save">
+     <a class="btn" href="@routes.Products.index()">Cancel</a>
   }
 }

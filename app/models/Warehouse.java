@@ -15,7 +15,7 @@ public class Warehouse extends Model {
   public String name;
 
   @OneToMany(mappedBy = "warehouse")
-  public List<StockItem> stock = new ArrayList<>();
+  public List<StockItem> stock = new ArrayList<StockItem>();
 
   @OneToOne
   public Address address;

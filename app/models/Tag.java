@@ -10,12 +10,8 @@ import java.util.List;
 @Entity
 public class Tag extends Model {
 
-  public static Finder<Long, Tag> find() {
-    return new Finder<>(Long.class, Tag.class);
-  }
-
   public static Tag findById(Long id) {
-    return find().byId(id);
+    return find.byId(id);
   }
 
   @Id
@@ -25,6 +21,9 @@ public class Tag extends Model {
   @ManyToMany(mappedBy = "tags")
   public List<Product> products;
 
+  public static Finder<Long, Tag> find =
+    new Finder<Long, Tag>(Long.class, Tag.class);
+  
 
   public Tag(){
     // Left empty
@@ -33,7 +32,7 @@ public class Tag extends Model {
   public Tag(Long id, String name, Collection<Product> products) {
     this.id = id;
     this.name = name;
-    this.products = new LinkedList<>(products);
+    this.products = new LinkedList<Product>(products);
     for (Product product : products) {
       product.tags.add(this);
     }

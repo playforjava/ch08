@@ -1,0 +1,26 @@
+@(hasPrevious: Boolean, previousPageLink: String, hasNext: Boolean, nextPageLink: String, text: String)
+<div id="pagination" class="pagination">
+    <ul>
+        @if(hasPrevious) {
+            <li class="prev">
+                <a href="@previousPageLink">&larr; </a>
+            </li>
+        } else {
+            <li class="prev disabled">
+                <a>&larr;</a>
+            </li>
+        }
+        <li class="current">
+            <a>@text</a>
+        </li>
+        @if(hasNext) {
+            <li class="next">
+                <a href="@nextPageLink"> &rarr;</a>
+            </li>
+        } else {
+            <li class="next disabled">
+                <a>&rarr;</a>
+            </li>
+        }
+    </ul>
+</div>

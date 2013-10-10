@@ -1,0 +1,13 @@
+tags:
+
+    - !!models.Tag
+        id:         1
+        name:       lightweight
+
+    - !!models.Tag
+        id:         2
+        name:       metal
+
+    - !!models.Tag
+        id:         3
+        name:       plastic
